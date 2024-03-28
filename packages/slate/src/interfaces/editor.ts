@@ -167,6 +167,7 @@ export interface BaseEditor {
   string: OmitFirstArg<typeof Editor.string>
   unhangRange: OmitFirstArg<typeof Editor.unhangRange>
   void: OmitFirstArg<typeof Editor.void>
+  shouldMergeNodesRemovePrevNode: OmitFirstArg<typeof Editor.shouldMergeNodesRemovePrevNode>
 }
 
 export type Editor = ExtendedType<'Editor', BaseEditor>
@@ -709,6 +710,11 @@ export interface EditorInterface {
    * Call a function, deferring normalization until after it completes.
    */
   withoutNormalizing: (editor: Editor, fn: () => void) => void
+
+  /**
+   *  Call a function, Determine whether or not remove the previous node when merge.
+   */
+  shouldMergeNodesRemovePrevNode: (editor: Editor, prevNodeEntry: NodeEntry, curNodeEntry: NodeEntry) => boolean
 }
 
 // eslint-disable-next-line no-redeclare
@@ -953,6 +959,9 @@ export const Editor: EditorInterface = {
   withoutNormalizing(editor, fn: () => void) {
     editor.withoutNormalizing(fn)
   },
+  shouldMergeNodesRemovePrevNode: (editor, prevNode, curNode) => {
+    return editor.shouldMergeNodesRemovePrevNode(prevNode, curNode)
+  }
 }
 
 /**

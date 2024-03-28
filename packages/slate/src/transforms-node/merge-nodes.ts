@@ -134,10 +134,7 @@ export const mergeNodes: NodeTransforms['mergeNodes'] = (
     // hanging selection.
     // if prevNode is first child in parent,don't remove it.
     if (
-      (Element.isElement(prevNode) && Editor.isEmpty(editor, prevNode)) ||
-      (Text.isText(prevNode) &&
-        prevNode.text === '' &&
-        prevPath[prevPath.length - 1] !== 0)
+      editor.shouldMergeNodesRemovePrevNode(prev, current)
     ) {
       Transforms.removeNodes(editor, { at: prevPath, voids })
     } else {
